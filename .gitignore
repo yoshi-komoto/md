@@ -1,0 +1,36 @@
+# Node
+node_modules/
+.npm/
+.cache/
+
+# Build outputs
+public/
+_site/
+.quartz-cache/
+site/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Editor
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Obsidian (一部を除いて除外)
+vault/.obsidian/workspace*
+vault/.obsidian/cache
+vault/.trash/
+vault/.obsidian-plugins-cache/
+
+# Secrets
+.env
+.env.*
+!.env.example
