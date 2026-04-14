@@ -22,7 +22,9 @@ export const defaultContentPageLayout: PageLayout = {
       condition: (page) => page.fileData.slug !== "index",
     }),
     Component.ArticleTitle(),
-    Component.ContentMeta(),
+    Component.ContentMeta({
+      editUrl: "https://github.com/yoshi-komoto/md/edit/master/vault/",
+    }),
     Component.TagList(),
   ],
   left: [

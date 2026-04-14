@@ -12,6 +12,10 @@ interface ContentMetaOptions {
    */
   showReadingTime: boolean
   showComma: boolean
+  /**
+   * GitHub edit URL base (e.g. "https://github.com/user/repo/edit/master/vault/")
+   */
+  editUrl?: string
 }
 
 const defaultOptions: ContentMetaOptions = {
@@ -40,6 +44,15 @@ export default ((opts?: Partial<ContentMetaOptions>) => {
           minutes: Math.ceil(minutes),
         })
         segments.push(<span>{displayedTime}</span>)
+      }
+
+      if (options.editUrl && fileData.relativePath) {
+        const editHref = `${options.editUrl}${fileData.relativePath}`
+        segments.push(
+          <a href={editHref} target="_blank" rel="noopener noreferrer" class="edit-link">
+            ✏ 編集
+          </a>,
+        )
       }
 
       return (

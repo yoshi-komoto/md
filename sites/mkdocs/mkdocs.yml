@@ -1,6 +1,8 @@
 site_name: 社内ナレッジベース (MkDocs)
 site_url: https://example.github.io/md/mkdocs/
 site_description: Obsidian vault を MkDocs でレンダリングした比較用サイト
+repo_url: https://github.com/yoshi-komoto/md
+edit_uri: edit/master/vault/
 docs_dir: docs
 
 theme:
