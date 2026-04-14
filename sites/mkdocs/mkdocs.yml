@@ -44,10 +44,8 @@ plugins:
         - en
   - awesome-pages
   - tags
-  - obsidian-support
   - roamlinks
   - callouts
-  - ezlinks
   - glightbox
   - git-revision-date-localized:
       type: date
