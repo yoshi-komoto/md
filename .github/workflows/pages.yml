@@ -51,7 +51,7 @@ jobs:
           QUARTZ_BASE_URL: ${{ env.SITE_ORG }}.github.io/${{ env.SITE_REPO }}/quartz
         run: |
           npm ci
-          npx quartz build
+          node quartz/bootstrap-cli.mjs build
 
       - name: Build MkDocs
         working-directory: sites/mkdocs
