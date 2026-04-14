@@ -1,0 +1,82 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [master]
+  push:
+    branches: [master]
+
+jobs:
+  build-quartz:
+    name: Build Quartz
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: false
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+          cache-dependency-path: sites/quartz/package-lock.json
+
+      - name: Prepare content symlink
+        run: |
+          rm -rf sites/quartz/content
+          ln -s ../../vault sites/quartz/content
+          ls sites/quartz/content | head -5
+
+      - name: Install dependencies
+        working-directory: sites/quartz
+        run: npm ci
+
+      - name: Build Quartz
+        working-directory: sites/quartz
+        env:
+          QUARTZ_BASE_URL: example.github.io/md/quartz
+        run: npx quartz build
+
+      - name: Upload Quartz artifact (debug)
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: quartz-public-debug
+          path: sites/quartz/public
+
+  build-mkdocs:
+    name: Build MkDocs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+          cache-dependency-path: sites/mkdocs/requirements.txt
+
+      - name: Install MkDocs deps
+        working-directory: sites/mkdocs
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Prepare docs symlink
+        run: |
+          rm -rf sites/mkdocs/docs
+          ln -s ../../vault sites/mkdocs/docs
+          ls sites/mkdocs/docs | head -5
+
+      - name: Build MkDocs
+        working-directory: sites/mkdocs
+        run: mkdocs build --site-dir _site
+
+      - name: Upload MkDocs artifact (debug)
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mkdocs-site-debug
+          path: sites/mkdocs/_site
